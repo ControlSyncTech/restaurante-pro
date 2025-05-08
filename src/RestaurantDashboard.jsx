@@ -14,6 +14,7 @@ export default function RestaurantDashboard() {
     e.preventDefault();
     if (username && password) {
       setCurrentScreen('dashboard');
+      setActiveTab('inicio');
     }
   };
 

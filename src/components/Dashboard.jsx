@@ -1,9 +1,13 @@
 import React from 'react';
-import { Menu, LogOut, User, ShoppingBag, Grid, Settings, BarChart2 } from 'lucide-react';
+import {
+  Menu, LogOut, User, ShoppingBag, Grid, Settings, BarChart2, Home
+} from 'lucide-react';
+
 import { FlexContainer } from '../styles/base/layout';
 import { Card, Button } from '../styles/base/components';
 import { Heading } from '../styles/base/typography';
 
+import { HomeTab } from './HomeTab';
 import { ProductsTab } from './ProductsTab';
 import { CategoriesTab } from './CategoriesTab';
 import { ReportsTab } from './ReportsTab';
@@ -12,7 +16,7 @@ import { SettingsTab } from './SettingsTab';
 export function Dashboard({ activeTab, setActiveTab, menuOpen, toggleMenu, logOut }) {
   return (
     <FlexContainer align="stretch" height="100vh">
-      {/* Sidebar simples */}
+      {/* Sidebar */}
       <div style={{
         width: menuOpen ? '16rem' : '5rem',
         backgroundColor: '#1f2937',
@@ -35,6 +39,7 @@ export function Dashboard({ activeTab, setActiveTab, menuOpen, toggleMenu, logOu
         </div>
 
         <nav style={{ flex: 1 }}>
+          <SidebarItem icon={<Home size={20} />} label="Início" isOpen={menuOpen} active={activeTab === 'inicio'} onClick={() => setActiveTab('inicio')} />
           <SidebarItem icon={<ShoppingBag size={20} />} label="Produtos" isOpen={menuOpen} active={activeTab === 'produtos'} onClick={() => setActiveTab('produtos')} />
           <SidebarItem icon={<Grid size={20} />} label="Categorias" isOpen={menuOpen} active={activeTab === 'categorias'} onClick={() => setActiveTab('categorias')} />
           <SidebarItem icon={<BarChart2 size={20} />} label="Relatórios" isOpen={menuOpen} active={activeTab === 'relatorios'} onClick={() => setActiveTab('relatorios')} />
@@ -59,7 +64,7 @@ export function Dashboard({ activeTab, setActiveTab, menuOpen, toggleMenu, logOu
           justifyContent: 'space-between',
           alignItems: 'center'
         }}>
-          <Heading size="1.5rem" marginBottom="0">
+          <Heading level="h2" marginBottom="0">
             {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
           </Heading>
           <div style={{
@@ -77,6 +82,7 @@ export function Dashboard({ activeTab, setActiveTab, menuOpen, toggleMenu, logOu
         </header>
 
         <main style={{ padding: '1.5rem', backgroundColor: '#f3f4f6', flex: 1, overflowY: 'auto' }}>
+          {activeTab === 'inicio' && <HomeTab />}
           {activeTab === 'produtos' && <ProductsTab />}
           {activeTab === 'categorias' && <CategoriesTab />}
           {activeTab === 'relatorios' && <ReportsTab />}
