@@ -33,15 +33,15 @@ export function Dashboard({ activeTab, setActiveTab, menuOpen, toggleMenu, logOu
           borderBottom: '1px solid #374151'
         }}>
           {menuOpen && <strong style={{ color: '#f97316' }}>RestaurantePro</strong>}
-          <button onClick={toggleMenu} style={{ background: 'none', border: 'none', color: 'white' }}>
+          <button onClick={toggleMenu} style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer' }}>
             <Menu size={20} />
           </button>
         </div>
 
         <nav style={{ flex: 1 }}>
           <SidebarItem icon={<Home size={20} />} label="Início" isOpen={menuOpen} active={activeTab === 'inicio'} onClick={() => setActiveTab('inicio')} />
-          <SidebarItem icon={<ShoppingBag size={20} />} label="Produtos" isOpen={menuOpen} active={activeTab === 'produtos'} onClick={() => setActiveTab('produtos')} />
           <SidebarItem icon={<Grid size={20} />} label="Categorias" isOpen={menuOpen} active={activeTab === 'categorias'} onClick={() => setActiveTab('categorias')} />
+          <SidebarItem icon={<ShoppingBag size={20} />} label="Produtos" isOpen={menuOpen} active={activeTab === 'produtos'} onClick={() => setActiveTab('produtos')} />
           <SidebarItem icon={<BarChart2 size={20} />} label="Relatórios" isOpen={menuOpen} active={activeTab === 'relatorios'} onClick={() => setActiveTab('relatorios')} />
           <SidebarItem icon={<Settings size={20} />} label="Configurações" isOpen={menuOpen} active={activeTab === 'configuracoes'} onClick={() => setActiveTab('configuracoes')} />
         </nav>
@@ -75,7 +75,8 @@ export function Dashboard({ activeTab, setActiveTab, menuOpen, toggleMenu, logOu
             width: '2.5rem',
             borderRadius: '50%',
             backgroundColor: '#e5e7eb',
-            color: '#4b5563'
+            color: '#4b5563',
+            cursor: 'pointer',
           }}>
             <User size={20} />
           </div>
