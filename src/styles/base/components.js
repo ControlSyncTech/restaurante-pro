@@ -17,9 +17,9 @@ export const Button = styled.button`
   font-weight: 600;
   font-size: 0.9rem;
   padding: ${props => props.padding || '0.5rem 1.25rem'};
-  border-radius: 0.375rem; /* menos arredondado */
+  border-radius: 0.375rem;
   width: ${props => props.fullWidth ? '100%' : 'auto'};
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, transform 0.05s;
   border: none;
   cursor: pointer;
   display: flex;
@@ -29,6 +29,10 @@ export const Button = styled.button`
 
   &:hover {
     background-color: ${props => props.secondary ? theme.secondaryHover : theme.primaryHover};
+  }
+
+  &:active {
+    transform: scale(0.98);
   }
 `;
 
