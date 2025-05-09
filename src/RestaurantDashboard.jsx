@@ -5,25 +5,20 @@ import { Dashboard } from './components/Dashboard';
 
 export default function RestaurantDashboard() {
   const [currentScreen, setCurrentScreen] = useState('welcome');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
   const [menuOpen, setMenuOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState('produtos');
+  const [activeTab, setActiveTab] = useState('inicio');
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (username && password) {
-      setCurrentScreen('dashboard');
-      setActiveTab('inicio');
-    }
+  // ✅ Quando login for bem-sucedido
+  const handleLoginSuccess = () => {
+    setCurrentScreen('dashboard');
+    setActiveTab('inicio');
   };
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   const logOut = () => {
+    localStorage.removeItem('token');
     setCurrentScreen('welcome');
-    setUsername('');
-    setPassword('');
   };
 
   if (currentScreen === 'welcome') {
@@ -31,15 +26,7 @@ export default function RestaurantDashboard() {
   }
 
   if (currentScreen === 'login') {
-    return (
-      <LoginScreen
-        onLogin={handleLogin}
-        username={username}
-        setUsername={setUsername}
-        password={password}
-        setPassword={setPassword}
-      />
-    );
+    return <LoginScreen onLoginSuccess={handleLoginSuccess} />;
   }
 
   return (

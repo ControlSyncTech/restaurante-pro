@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Button } from '../styles/base/components';
 import { FlexContainer } from '../styles/base/layout';
 import { Heading, Text } from '../styles/base/typography';
 import { Map, Truck, Coffee } from 'lucide-react';
+import { MesaMap } from './MesaMap';
 
 export function HomeTab() {
+  const [showMap, setShowMap] = useState(false);
+
   return (
     <FlexContainer direction="column" gap="1.5rem">
       <Heading level="h2" marginBottom="0">Painel de Operações</Heading>
@@ -14,7 +17,11 @@ export function HomeTab() {
           <Map size={36} color="#f97316" />
           <Heading level="h3" marginBottom="0.5rem">Mapa de Mesas</Heading>
           <Text size="0.875rem" marginBottom="1rem">Visualize as mesas ocupadas e livres</Text>
-          <Button fullWidth>Ver Mapa</Button>
+          {!showMap ? (
+            <Button fullWidth onClick={() => setShowMap(true)}>Ver Mapa</Button>
+          ) : (
+            <MesaMap />
+          )}
         </Card>
 
         <Card style={{ flex: 1, minWidth: '14rem', textAlign: 'center' }}>
