@@ -36,3 +36,19 @@ export const Button = styled.button`
   }
 `;
 
+export const TextButton = styled.button`
+  background: none;
+  border: none;
+  color: ${props => props.color || theme.primary};
+  font-weight: ${props => props.fontWeight || 'normal'};
+  cursor: pointer;
+  padding: ${props => props.padding || '0.5rem'};
+
+  &:hover {
+    color: ${props => {
+      if (props.color === '#ef4444') return '#b91c1c';  // vermelho escuro
+      if (props.color === '#3b82f6') return '#1d4ed8';  // azul escuro
+      return theme.primaryHover;
+    }};
+  }
+`;
