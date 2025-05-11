@@ -7,22 +7,30 @@ import {
   updateCategory,
   deleteCategory,
 } from '@/services/categoryService';
+import { useRouter } from 'next/navigation';
 
 interface Category {
   id: string;
   name: string;
+  productCount: number;
 }
 
 export default function CategoriasTab() {
+  const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([]);
   const [newName, setNewName] = useState('');
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [showForm, setShowForm] = useState(false);
 
   const loadCategories = async () => {
-    try {
-      const data = await getCategories();
-      setCategories(data);
+  try {
+    const data = await getCategories();
+    const formatted = data.map((cat: any) => ({
+      id: cat.id,
+      name: cat.name,
+      productCount: cat._count?.products ?? 0,
+    }));
+    setCategories(formatted);
     } catch (error) {
       console.error('Erro ao buscar categorias:', error);
     }
@@ -114,7 +122,15 @@ export default function CategoriasTab() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {categories.map((cat) => (
           <div key={cat.id} className="border border-gray-200 rounded-lg p-4">
-            <h3 className="font-semibold text-lg mb-2">{cat.name}</h3>
+            <h3
+              className="font-semibold text-lg mb-1 cursor-pointer hover:underline"
+              onClick={() => router.push(`/produtos?categoria=${encodeURIComponent(cat.name)}`)}
+            >
+              {cat.name}
+            </h3>
+            <p className="text-gray-500 text-sm mb-4">
+              {cat.productCount ?? 0} produto(s)
+            </p>
             <div className="flex justify-end space-x-2">
               <button onClick={() => handleEdit(cat)} className="text-blue-500 hover:text-blue-700">
                 Editar

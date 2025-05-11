@@ -8,22 +8,21 @@ import ProdutosTab from '../ProdutosTab';
 import CategoriasTab from '../CategoriasTab';
 import RelatoriosTab from '../RelatoriosTab';
 import ConfiguracoesTab from '../ConfiguracoesTab';
+import MesasComandasTab from '../MesasComandasTab';
 import { me } from '@/services/authService';
 import { useRouter } from 'next/navigation';
 
 export default function Dashboard() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('relatorios');
+  const [activeTab, setActiveTab] = useState('pedidos');
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  // Restaura a aba ativa do localStorage
   useEffect(() => {
     const savedTab = localStorage.getItem('activeTab');
     if (savedTab) setActiveTab(savedTab);
   }, []);
 
-  // Salva a aba ativa no localStorage
   useEffect(() => {
     localStorage.setItem('activeTab', activeTab);
   }, [activeTab]);
@@ -61,6 +60,7 @@ export default function Dashboard() {
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header activeTab={activeTab} />
         <main className="flex-1 overflow-y-auto p-6 bg-gray-100">
+          {activeTab === 'pedidos' && <MesasComandasTab />}
           {activeTab === 'relatorios' && <RelatoriosTab />}
           {activeTab === 'categorias' && <CategoriasTab />}
           {activeTab === 'produtos' && <ProdutosTab />}

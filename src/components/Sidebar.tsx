@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Menu, ShoppingBag, Grid, BarChart2, Settings, LogOut } from 'lucide-react';
+import { Menu, ShoppingBag, Grid, BarChart2, Settings, LogOut, ReceiptText } from 'lucide-react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 
@@ -17,7 +17,7 @@ export default function Sidebar({ menuOpen, activeTab, onTabChange, onToggleMenu
 
   const handleLogout = () => {
     Cookies.remove('token');
-    router.push('/login');
+    router.push('/');
   };
 
   return (
@@ -34,10 +34,11 @@ export default function Sidebar({ menuOpen, activeTab, onTabChange, onToggleMenu
       <nav className="flex-1">
         <ul className="pt-2">
           {([
+            ['pedidos', ReceiptText],
             ['relatorios', BarChart2],
             ['categorias', Grid],
             ['produtos', ShoppingBag],
-            ['configuracoes', Settings]
+            ['configuracoes', Settings],
           ] as [string, React.ElementType][]).map(([tab, Icon]) => (
             <li key={tab}>
               <button
@@ -47,7 +48,7 @@ export default function Sidebar({ menuOpen, activeTab, onTabChange, onToggleMenu
                 }`}
               >
                 <Icon size={24} className="text-gray-400" />
-                {menuOpen && <span className="ml-4 capitalize">{tab}</span>}
+                {menuOpen && <span className="ml-4 capitalize">{tab === 'pedidos' ? 'Pedidos' : tab}</span>}
               </button>
             </li>
           ))}
