@@ -1,20 +1,53 @@
+// Pasta: components/Dashboard/index.tsx
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../Sidebar';
 import Header from '../Header';
 import ProdutosTab from '../ProdutosTab';
 import CategoriasTab from '../CategoriasTab';
 import RelatoriosTab from '../RelatoriosTab';
 import ConfiguracoesTab from '../ConfiguracoesTab';
+import { me } from '@/services/authService';
+import { useRouter } from 'next/navigation';
 
-interface Props {
-  onLogout: () => void;
-}
-
-export default function Dashboard({ onLogout }: Props) {
+export default function Dashboard() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('produtos');
+  const [activeTab, setActiveTab] = useState('relatorios');
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  // Restaura a aba ativa do localStorage
+  useEffect(() => {
+    const savedTab = localStorage.getItem('activeTab');
+    if (savedTab) setActiveTab(savedTab);
+  }, []);
+
+  // Salva a aba ativa no localStorage
+  useEffect(() => {
+    localStorage.setItem('activeTab', activeTab);
+  }, [activeTab]);
+
+  useEffect(() => {
+    async function validateToken() {
+      try {
+        await me();
+        setLoading(false);
+      } catch {
+        router.push('/login');
+      }
+    }
+
+    validateToken();
+  }, [router]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-600 text-lg">Validando acesso...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -23,15 +56,14 @@ export default function Dashboard({ onLogout }: Props) {
         activeTab={activeTab}
         onTabChange={setActiveTab}
         onToggleMenu={() => setMenuOpen(!menuOpen)}
-        onLogout={onLogout}
       />
 
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header activeTab={activeTab} />
         <main className="flex-1 overflow-y-auto p-6 bg-gray-100">
-          {activeTab === 'produtos' && <ProdutosTab />}
-          {activeTab === 'categorias' && <CategoriasTab />}
           {activeTab === 'relatorios' && <RelatoriosTab />}
+          {activeTab === 'categorias' && <CategoriasTab />}
+          {activeTab === 'produtos' && <ProdutosTab />}
           {activeTab === 'configuracoes' && <ConfiguracoesTab />}
         </main>
       </div>

@@ -1,23 +1,21 @@
 'use client';
 
-import React from 'react';
-import { User } from 'lucide-react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { login } from '@/services/authService';
+import Cookies from 'js-cookie';
+import { User } from 'lucide-react';
 
-interface Props {
-  username: string;
-  password: string;
-  setUsername: (value: string) => void;
-  setPassword: (value: string) => void;
-  onLoginSuccess: () => void;
-}
+export default function LoginPage() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const router = useRouter();
 
-export default function LoginScreen({ username, password, setUsername, setPassword, onLoginSuccess }: Props) {
   const handleLogin = async () => {
     try {
       const data = await login(username, password);
-      localStorage.setItem('token', data.token);
-      onLoginSuccess();
+      Cookies.set('token', data.token, { expires: 1 });
+      router.push('/dashboard');
     } catch (error) {
       alert('Erro ao fazer login. Verifique suas credenciais.');
       console.error(error);
